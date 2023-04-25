@@ -1,0 +1,5 @@
+# Rust compilation output
+target/
+
+# Sphinx docs build output
+/docs/build
