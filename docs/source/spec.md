@@ -148,7 +148,8 @@ The string data type represents text values. Strings are delimited by a double q
 A string literal is a character interpreted without any transformations. These are space, ASCII printable characters excluding double quote and backslash, and Unicode characters.
 
 ```abnf
-string = DQUOTE *string-fragment DQUOTE *string-line-continuation
+string = string-line *string-line-continuation
+string-line = DQUOTE *string-fragment DQUOTE
 string-fragment = string-literal / escape-sequence
 string-literal = 1*(
     SP /
@@ -201,10 +202,11 @@ Implementations should use the brace syntax for characters outside the BMP.
 
 ### Line continuation
 
-Line continuations can be used to break long lines for readability purposes. A line continuation is notated by a string fragment, backslash, line separator, zero or more whitespace, and a string fragment.
+Line continuations can be used to break long lines for readability purposes. A line continuation joiner is a sequence of backslash, line separator, and zero or more whitespace characters.
 
 ```abnf
-string-line-continuation = backslash newline *WSP DQUOTE *string-fragment DQUOTE
+string-line-continuation = line-continuation-joiner string-line
+line-continuation-joiner = backslash newline *WSP
 ```
 
 Introducing or removing line continuations must not affect the value of the string.
